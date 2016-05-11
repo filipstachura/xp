@@ -61,6 +61,23 @@ def run_python(arg_str,context,cwd,content):
 	if retcode != 0:
 		raise CalledProcessError(retcode,cmd,None)
 
+def run_rstat(arg_str,context,cwd,content):
+
+	# write R code to a tmp file
+	fh,tmp_filename = tempfile.mkstemp(suffix='R')
+	os.write(fh,'\n'.join(content))
+	os.close(fh)
+
+	logger.debug('wrote R content to %s' % tmp_filename)
+	
+	exec_name = context.get('R','Rscript')
+	cmd = '%s %s %s' % (exec_name,arg_str,tmp_filename)
+	logger.debug('using cmd: %s' % cmd)
+	retcode = subprocess.call(cmd,shell=True,cwd=cwd,env=get_total_context(context))
+
+	if retcode != 0:
+		raise CalledProcessError(retcode,cmd,None)
+
 def run_gnuplot(arg_str,context,cwd,content):
 	
 	# write gnuplot code to a tmp file

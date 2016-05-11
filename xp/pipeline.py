@@ -41,6 +41,7 @@ USE_DIR_PREFIX = (DIR_PREFIX,None)
 
 LANG_FXN_LOOKUP = {	'sh':'run_shell', 
 					'py':'run_python',
+					'R':'run_rstat',
 					'gnuplot':'run_gnuplot',
 					'test':'run_test',
 					'awk':'run_awk'}
